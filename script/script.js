@@ -394,4 +394,39 @@ window.addEventListener('DOMContentLoaded', function() {
         startSlide(1500);
     };
     slider();
+
+    // change image
+    const changeImg = () => {
+        const command = document.getElementById('command');
+        command.addEventListener('mouseover', (event) => {
+            let target = event.target;
+            if (target.matches('.command__photo')) {
+                changeImgPlace(target);
+            }
+        });
+        command.addEventListener('mouseout', (event) => {
+            let target = event.target;
+            if (target.matches('.command__photo')) {
+                changeImgPlace(target);
+            }
+        });
+        const changeImgPlace = (target) => {
+            const tmpImg = target.src;
+            target.src = target.dataset.img;
+            target.dataset.img = tmpImg;
+        };  
+    };
+    changeImg();
+
+    // Калькулятор - ввод только цифр(Общая площадь, Количество помещений,Срок исполнения
+    const validNumberInputs = () => {
+        const calcBlock = document.querySelector('.calc-block');
+        calcBlock.addEventListener('input', (event) => {
+            let target = event.target;
+            if (target.matches('input')) {
+                target.value = target.value.replace(/\D/g, '');
+            }
+        });
+    };
+    validNumberInputs();
 });
