@@ -235,6 +235,8 @@
                     <div class="companies-hor-item"><img src="images/companies/companies-6.png" alt=""></div>
                     <div class="companies-hor-item"><img src="images/companies/companies-7.png" alt=""></div>
                 </div>
+                <!-- <button id='test-left'> < </button>
+                <button id='test-right'> > </button> -->
             </div>
         </div>
     </div>
@@ -417,5 +419,32 @@
     </div>
 
  <script src="./script/script.js"></script>
+ <script src="./script/sliderCarousel.js"></script>
+ <script>
+     const options = {
+        main: '.companies-wrapper',
+        wrap: '.companies-hor',
+        // prev: '#test-left',
+        // next: '#test-right',
+        slidesToShow: 4,
+        infinity: true,
+
+        responsive: [{
+            breakpoint: 1024,
+            slidesToShow: 3
+        },
+        {
+            breakpoint: 768,
+            slidesToShow: 2
+        },
+        {
+            breakpoint: 576,
+            slidesToShow: 1
+        }]
+     };
+ const carousel = new SliderCarousel(options);
+ carousel.init();
+ </script>
+ <!-- <script src="./script/startCarousel.js"></script> -->
 </body>
 </html>
