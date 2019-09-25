@@ -450,9 +450,11 @@
  const valid = new Validator({
      selector: '#form1',
      pattern: {
-        phone: /^\+375([-()23459]){4}\d{7}$/,
+         phone: /^\+\d+$/,
+        // phone: /^\+375([-()23459]){4}\d{7}$/,
         // phone: /^\+380\d{7}$/,
-        name: /[а-яё]/gi
+        // name: /[а-яё]/gi
+         name: /^[a-z\' ']+$/gi
      },
      method: {
         'form1-name': [
@@ -474,9 +476,9 @@
  const valid2 = new Validator({
      selector: '#form2',
      pattern: {
-        phone: /^\+375([-()23459]){4}\d{7}$/,
-        name: /[а-яё]/gi,
-        message: /[а-яё]/gi
+        phone: /^\+\d+$/,
+        name: /^[a-z\' ']+$/gi,
+        message: /^[a-z\' ']+$/gi
      },
      method: {
         'form2-name': [
@@ -501,8 +503,8 @@
  const valid3 = new Validator({
      selector: '#form3',
      pattern: {
-        phone: /^\+375([-()23459]){4}\d{7}$/,
-        name: /[а-яё]/gi
+        phone: /^\+\d+$/,
+        name: /^[a-z\' ']+$/gi
      },
      method: {
         'form3-name': [

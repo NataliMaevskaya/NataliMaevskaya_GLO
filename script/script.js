@@ -519,4 +519,77 @@ window.addEventListener('DOMContentLoaded', function() {
     };
     calc(100);
 
+    //send-ajax-form
+    const sendForm = (idForm) => {
+        const errorMessage = 'Что-то пошло не так!',
+            loadMessage = 'Загрузка...',
+            successMessage = 'Спасибо, мы скоро с вами свяжемся.';
+        
+            const form = document.getElementById(idForm);
+
+            const statusMessage = document.createElement('div');
+            // statusMessage.textContent = 'Тут будет сообщение';
+            statusMessage.style.cssText = `font-size: 2rem;
+                                           color: #fff;`;
+
+            //событие submit на форме
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                form.appendChild(statusMessage);
+                statusMessage.textContent = loadMessage;
+
+                const formData = new FormData(form);
+                let body = {};
+                // for(let value of formData.entries()) {
+                //     body[value[0]] = value[1];
+                // }
+                formData.forEach((val, key) => {
+                    body[key] = val;
+                });
+                postData(body, 
+                    () => {
+                    statusMessage.textContent = successMessage;
+                    },
+                    (error) => {
+                    statusMessage.textContent = errorMessage;
+                    console.error(error);
+                    });
+            });
+
+            const postData = (body, outputData, errorData) => {
+                const request = new XMLHttpRequest();
+
+                request.addEventListener('readystatechange', () => {
+                    if (request.readyState !== 4) {
+                        return;
+                    }
+                    if (request.status === 200) {
+                        outputData();
+                        clearFormFields(idForm);
+                    } else {
+                        errorData(request.status);                        
+                    }
+                });
+
+                request.open('POST', './server.php');
+                // request.setRequestHeader('Content-Type', 'multipart/form-data'); // если сервер понимает form-data
+                request.setRequestHeader('Content-Type', 'application/json');
+                
+                // request.send(formData);
+                request.send(JSON.stringify(body));
+            };
+            const clearFormFields = (idForm) => {
+                const form = document.getElementById(idForm);
+                for (const elem of form.elements) {
+                    if (elem.tagName.toLowerCase() !== 'button' && elem.type !== 'button') {
+                        elem.value = '';
+                    }
+                }
+
+            };
+    };
+    sendForm('form1');
+    sendForm('form2');
+    sendForm('form3');
+
 });
