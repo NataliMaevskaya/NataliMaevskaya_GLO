@@ -6,6 +6,10 @@ class Validator {
         this.elementsForm = [...this.form.elements].filter(item => {
             return item.tagName.toLowerCase() !== 'button' && item.type !== 'button';
         });
+        this.buttonsForm = [...this.form.elements].filter(item => {
+            return item.tagName.toLowerCase() === 'button' || item.type === 'button';
+        });
+        this.disabled = false;
         this.error = new Set();
     }
     init() {
@@ -15,8 +19,8 @@ class Validator {
         this.form.addEventListener('submit', e => {
             this.elementsForm.forEach(elem => this.checkIt({target: elem}));
             if (this.error.size) {
-                e.preventDefault();
-            }
+                e.preventDefault();                
+            } 
         });
         
         
@@ -54,6 +58,20 @@ class Validator {
         } else {
             this.showError(target);
             this.error.add(target);
+        }
+        if (this.error.size) {
+            if (!this.disabled) {
+                this.buttonsForm.forEach((elem) => {
+                    elem.setAttribute('disabled', 'true');
+                    this.disabled = true;
+                });  
+            }
+        }    
+        else {
+            this.buttonsForm.forEach((elem) => {
+                elem.removeAttribute('disabled');
+                this.disabled = false;
+            });
         }
         // console.log(this.error);
     }
