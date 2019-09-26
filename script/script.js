@@ -549,9 +549,11 @@ window.addEventListener('DOMContentLoaded', function() {
                 postData(body, 
                     () => {
                     statusMessage.textContent = successMessage;
+                    clearFormFields(form);
                     },
                     (error) => {
                     statusMessage.textContent = errorMessage;
+                    clearFormFields(form);
                     console.error(error);
                     });
             });
@@ -565,7 +567,6 @@ window.addEventListener('DOMContentLoaded', function() {
                     }
                     if (request.status === 200) {
                         outputData();
-                        clearFormFields(idForm);
                     } else {
                         errorData(request.status);                        
                     }
@@ -578,16 +579,20 @@ window.addEventListener('DOMContentLoaded', function() {
                 // request.send(formData);
                 request.send(JSON.stringify(body));
             };
-            const clearFormFields = (idForm) => {
-                const form = document.getElementById(idForm);
+            const clearFormFields = (form) => {
+                // const form = document.getElementById(idForm);
                 for (const elem of form.elements) {
                     if (elem.tagName.toLowerCase() !== 'button' && elem.type !== 'button') {
+                        //  console.log(elem);
                         elem.value = '';
+                        elem.classList.remove('success');
                     }
                 }
-
+        
             };
+            
     };
+    
     sendForm('form1');
     sendForm('form2');
     sendForm('form3');
