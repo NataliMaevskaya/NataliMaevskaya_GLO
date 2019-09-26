@@ -528,7 +528,6 @@ window.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById(idForm);
 
             const statusMessage = document.createElement('div');
-            // statusMessage.textContent = 'Тут будет сообщение';
             statusMessage.style.cssText = `font-size: 2rem;
                                            color: #fff;`;
 
@@ -580,10 +579,8 @@ window.addEventListener('DOMContentLoaded', function() {
                 request.send(JSON.stringify(body));
             };
             const clearFormFields = (form) => {
-                // const form = document.getElementById(idForm);
                 for (const elem of form.elements) {
                     if (elem.tagName.toLowerCase() !== 'button' && elem.type !== 'button') {
-                        //  console.log(elem);
                         elem.value = '';
                         elem.classList.remove('success');
                     }

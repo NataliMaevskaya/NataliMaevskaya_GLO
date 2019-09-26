@@ -454,7 +454,7 @@
         // phone: /^\+375([-()23459]){4}\d{7}$/,
         // phone: /^\+380\d{7}$/,
         // name: /[а-яё]/gi
-        name: /^[а-яё\s]+$/gi
+        name: /^[а-яё\s]+$/i
         // name: /^[а-яё]*[\s]*[А-ЯЁ]*$/gi
         //  name: /^[[А-ЯЁ]*[а-яё]*\s*]*$/gi
         //  name: /^[a-z\' \']+$/gi
@@ -481,8 +481,8 @@
      selector: '#form2',
      pattern: {
         phone: /^\+\d+$/,
-        name: /^[а-яё\s]+$/gi,
-        message: /^[а-яё\s]+$/gi
+        name: /^[а-яё\s]+$/i,
+        message: /^[а-яё\s]+$/i
      },
      method: {
         'form2-name': [
@@ -508,7 +508,7 @@
      selector: '#form3',
      pattern: {
         phone: /^\+\d+$/,
-        name: /^[а-яё\s]+$/gi
+        name: /^[а-яё\s]+$/i
      },
      method: {
         'form3-name': [

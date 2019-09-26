@@ -13,9 +13,7 @@ class Validator {
         this.setPattern();
         this.elementsForm.forEach( elem => elem.addEventListener('change', this.checkIt.bind(this)));
         this.form.addEventListener('submit', e => {
-            // console.log(this);
             this.elementsForm.forEach(elem => this.checkIt({target: elem}));
-            // console.log(this);
             if (this.error.size) {
                 e.preventDefault();
             }
@@ -39,24 +37,16 @@ class Validator {
 
         if (this.method) {
             const method = this.method[elem.id];
-            console.log('method: ', method);
             if (method) {
-                // console.log(validatorMethod);
-                // console.log(elem);
-                // console.log(elem.value);
-                // console.log(this.pattern);
                 return method.every( item => validatorMethod[item[0]](elem, this.pattern[item[1]]));
             }
         } else {
             console.warn('Необходимо передать id полей ввода и методы проверки этих полей ');
-        }
-        
-        // console.log(method);
+        }        
         return true;
     }
 
     checkIt(event) {
-        console.log(this);
         const target = event.target;
         if(this.isValid(target)) {
             this.showSuccess(target);
