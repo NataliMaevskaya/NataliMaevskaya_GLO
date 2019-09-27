@@ -545,38 +545,53 @@ window.addEventListener('DOMContentLoaded', function() {
                 formData.forEach((val, key) => {
                     body[key] = val;
                 });
-                postData(body, 
-                    () => {
-                    statusMessage.textContent = successMessage;
-                    clearFormFields(form);
-                    },
-                    (error) => {
-                    statusMessage.textContent = errorMessage;
-                    clearFormFields(form);
-                    console.error(error);
-                    });
+
+                postData(body)
+                    .then((successMessage) => {
+                        statusMessage.textContent = successMessage;
+                    })
+                    .catch((errorMessage, requestStatus) => {
+                        statusMessage.textContent = errorMessage;
+                        console.error(requestStatus);
+                    })
+                    .finally(() => clearFormFields(form));
+                // postData(body, 
+                //     () => {
+                //     statusMessage.textContent = successMessage;
+                //     clearFormFields(form);
+                //     },
+                //     (error) => {
+                //     statusMessage.textContent = errorMessage;
+                //     clearFormFields(form);
+                //     console.error(error);
+                //     });
             });
 
-            const postData = (body, outputData, errorData) => {
-                const request = new XMLHttpRequest();
+            const postData = (body) => {
+                return new Promise((resolve, reject) => {
+                    const request = new XMLHttpRequest();
 
-                request.addEventListener('readystatechange', () => {
-                    if (request.readyState !== 4) {
-                        return;
-                    }
-                    if (request.status === 200) {
-                        outputData();
-                    } else {
-                        errorData(request.status);                        
-                    }
+                    request.addEventListener('readystatechange', () => {
+                        if (request.readyState !== 4) {
+                            return;
+                        }
+                        if (request.status === 200) {
+                            resolve(successMessage);
+                            // outputData();
+                        } else {
+                            reject(errorMessage, request.status);
+                            // errorData(request.status);                        
+                        }
+                    });
+
+                    request.open('POST', './server.php');
+                    // request.setRequestHeader('Content-Type', 'multipart/form-data'); // если сервер понимает form-data
+                    request.setRequestHeader('Content-Type', 'application/json');
+                    
+                    // request.send(formData);
+                    request.send(JSON.stringify(body));
                 });
-
-                request.open('POST', './server.php');
-                // request.setRequestHeader('Content-Type', 'multipart/form-data'); // если сервер понимает form-data
-                request.setRequestHeader('Content-Type', 'application/json');
                 
-                // request.send(formData);
-                request.send(JSON.stringify(body));
             };
             const clearFormFields = (form) => {
                 for (const elem of form.elements) {
