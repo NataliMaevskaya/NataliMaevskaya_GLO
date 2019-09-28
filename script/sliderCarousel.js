@@ -53,7 +53,7 @@ class SliderCarousel {
     }
 
     addStyle() {
-        let style = document.getElementById('slidercarousel-style');
+        let style = document.getElementById('sliderCarousel-style');
         if (!style){
             style = document.createElement('style');
             style.id = 'sliderCarousel-style';
@@ -167,3 +167,5 @@ class SliderCarousel {
         window.addEventListener('resize', checkResponse);
     }
 }
+
+// export default SliderCarousel;
