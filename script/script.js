@@ -547,12 +547,15 @@ window.addEventListener('DOMContentLoaded', function() {
                 });
 
                 postData(body)
-                    .then((successMessage) => {
+                    .then((response) => {
+                        if (response.status !== 200) {
+                            throw new Error('status ntwork is not 200!');
+                        }
                         statusMessage.textContent = successMessage;
                     })
-                    .catch((errorMessage, requestStatus) => {
+                    .catch((err) => {
                         statusMessage.textContent = errorMessage;
-                        console.error(requestStatus);
+                        console.error(err);
                     })
                     .finally(() => clearFormFields(form));
                 // postData(body, 
@@ -568,29 +571,37 @@ window.addEventListener('DOMContentLoaded', function() {
             });
 
             const postData = (body) => {
-                return new Promise((resolve, reject) => {
-                    const request = new XMLHttpRequest();
-
-                    request.addEventListener('readystatechange', () => {
-                        if (request.readyState !== 4) {
-                            return;
-                        }
-                        if (request.status === 200) {
-                            resolve(successMessage);
-                            // outputData();
-                        } else {
-                            reject(errorMessage, request.status);
-                            // errorData(request.status);                        
-                        }
-                    });
-
-                    request.open('POST', './server.php');
-                    // request.setRequestHeader('Content-Type', 'multipart/form-data'); // если сервер понимает form-data
-                    request.setRequestHeader('Content-Type', 'application/json');
-                    
-                    // request.send(formData);
-                    request.send(JSON.stringify(body));
+                return fetch('./server.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    cache: 'default',
+                    body: JSON.stringify(body)
                 });
+                // return new Promise((resolve, reject) => {
+                //     const request = new XMLHttpRequest();
+
+                //     request.addEventListener('readystatechange', () => {
+                //         if (request.readyState !== 4) {
+                //             return;
+                //         }
+                //         if (request.status === 200) {
+                //             resolve();
+                //             // outputData();
+                //         } else {
+                //             reject(request.status);
+                //             // errorData(request.status);                        
+                //         }
+                //     });
+
+                //     request.open('POST', './server.php');
+                //     // request.setRequestHeader('Content-Type', 'multipart/form-data'); // если сервер понимает form-data
+                //     request.setRequestHeader('Content-Type', 'application/json');
+                    
+                //     // request.send(formData);
+                //     request.send(JSON.stringify(body));
+                // });
                 
             };
             const clearFormFields = (form) => {
