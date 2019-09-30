@@ -1,9 +1,11 @@
 const sendForm = (idForm) => {
+    
+    
     const errorMessage = 'Что-то пошло не так!',
         loadMessage = 'Загрузка...',
         successMessage = 'Спасибо, мы скоро с вами свяжемся.';
-    
-        const form = document.getElementById(idForm);
+
+        const form = document.getElementById(idForm);  
 
         const statusMessage = document.createElement('div');
         statusMessage.style.cssText = `font-size: 2rem;
@@ -12,6 +14,19 @@ const sendForm = (idForm) => {
         //событие submit на форме
         form.addEventListener('submit', (event) => {
             event.preventDefault();
+            const elementsForm = [...form.elements].filter(item => {
+                return item.tagName.toLowerCase() !== 'button' && item.type !== 'button';
+            });
+            let len = elementsForm.length,
+                numNotEmpty = 0;
+            elementsForm.forEach((elem) => {
+                if (elem.value !== '') {
+                    numNotEmpty++;
+                }                
+            }); 
+            if (numNotEmpty !== len) {
+                return;
+            }
             form.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;
 

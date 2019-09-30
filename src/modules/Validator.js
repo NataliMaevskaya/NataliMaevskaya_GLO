@@ -9,21 +9,31 @@ class Validator {
         this.buttonsForm = [...this.form.elements].filter(item => {
             return item.tagName.toLowerCase() === 'button' || item.type === 'button';
         });
-        this.disabled = false;
+        this.emptyFields = false;
         this.error = new Set();
     }
     init() {
+        this.startAttributes();
         this.applyStyle();
         this.setPattern();
         this.elementsForm.forEach( elem => elem.addEventListener('change', this.checkIt.bind(this)));
         this.form.addEventListener('submit', e => {
             this.elementsForm.forEach(elem => this.checkIt({target: elem}));
             if (this.error.size) {
-                e.preventDefault();                
+                e.preventDefault();           
             } 
         });
-        
-        
+    }
+
+    startAttributes() {
+        this.buttonsForm.forEach((elem) => {
+            elem.setAttribute('disabled', 'true');
+        });  
+
+        this.elementsForm.forEach( (elem) => {
+            elem.setAttribute('autocomplete', 'off');
+        })
+
     }
 
     isValid(elem) {
@@ -59,20 +69,31 @@ class Validator {
             this.showError(target);
             this.error.add(target);
         }
-        if (this.error.size) {
-            if (!this.disabled) {
-                this.buttonsForm.forEach((elem) => {
-                    elem.setAttribute('disabled', 'true');
-                    this.disabled = true;
-                });  
+        if (!this.emptyFields) { 
+            this.elementsForm.forEach((elem) => {
+                if (elem.value === '') {
+                    this.emptyFields = true; // есть пустые поля в форме
+                    return;
+                }
+            });
+        }else {
+            let len = this.elementsForm.length,
+                numNotEmpty = 0;
+            this.elementsForm.forEach((elem) => {
+                if (elem.value !== '') {
+                    numNotEmpty++;
+                }                
+            }); 
+            if (numNotEmpty === len) {
+                this.emptyFields = false;
             }
-        }    
-        else {
+        }
+        if (!this.error.size && !this.emptyFields) {
             this.buttonsForm.forEach((elem) => {
                 elem.removeAttribute('disabled');
-                this.disabled = false;
             });
-        }
+            this.emptyFields = false;
+            }    
         // console.log(this.error);
     }
 
@@ -128,3 +149,5 @@ class Validator {
         // console.log(this.pattern);
     }
 }
+
+export default Validator;
