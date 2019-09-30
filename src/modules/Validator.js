@@ -93,7 +93,12 @@ class Validator {
                 elem.removeAttribute('disabled');
             });
             this.emptyFields = false;
-            }    
+        }  
+        if (this.error.size || this.emptyFields) {
+            this.buttonsForm.forEach((elem) => {
+                elem.setAttribute('disabled', 'true');
+            });
+        }
         // console.log(this.error);
     }
 
