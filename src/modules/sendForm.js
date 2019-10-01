@@ -51,7 +51,7 @@ const sendForm = (idForm) => {
                     statusMessage.textContent = errorMessage;
                     console.error(err);
                 })
-                .finally(() => clearFormFields(form));
+                .then(() => clearFormFields(form));
             // postData(body, 
             //     () => {
             //     statusMessage.textContent = successMessage;
