@@ -8,6 +8,7 @@ const sendForm = (idForm) => {
         const form = document.getElementById(idForm);  
 
         const statusMessage = document.createElement('div');
+        statusMessage.className = 'message-server';
         statusMessage.style.cssText = `font-size: 2rem;
                                        color: #fff;`;
 

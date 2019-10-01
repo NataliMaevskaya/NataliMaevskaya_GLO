@@ -27,11 +27,18 @@ const togglePopUp = () => {
 
     popup.addEventListener('click', (event) => {
         let target = event.target;
+        const formBtn = popup.querySelector('.form-btn');
         if(target.classList.contains('popup-close')) {
+            if (formBtn.nextElementSibling && formBtn.nextElementSibling.classList.contains('message-server')) { //nextElementSibling - проверяет элемент справа
+                formBtn.nextElementSibling.remove();
+            } 
             popup.style.display = 'none';
         } else {
             target = target.closest('.popup-content');
             if(!target) {
+                if (formBtn.nextElementSibling && formBtn.nextElementSibling.classList.contains('message-server')) { //nextElementSibling - проверяет элемент справа
+                    formBtn.nextElementSibling.remove();
+                }
                 popup.style.display = 'none';
             }
         }
