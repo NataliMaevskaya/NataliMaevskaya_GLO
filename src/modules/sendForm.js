@@ -7,10 +7,11 @@ const sendForm = (idForm) => {
 
         const form = document.getElementById(idForm);  
 
-        const statusMessage = document.createElement('div');
+        // const statusMessage = document.createElement('div');
+        const statusMessage = document.createElement('img');
         statusMessage.className = 'message-server';
-        statusMessage.style.cssText = `font-size: 2rem;
-                                       color: #fff;`;
+        // statusMessage.style.cssText = `font-size: 2rem;
+        //                                color: #fff;`;
 
         //событие submit на форме
         form.addEventListener('submit', (event) => {
@@ -29,7 +30,8 @@ const sendForm = (idForm) => {
                 return;
             }
             form.appendChild(statusMessage);
-            statusMessage.textContent = loadMessage;
+            statusMessage.src = './images/loading.png';
+            // statusMessage.textContent = loadMessage;
 
             const formData = new FormData(form);
             let body = {};
@@ -45,10 +47,13 @@ const sendForm = (idForm) => {
                     if (response.status !== 200) {
                         throw new Error('status ntwork is not 200!');
                     }
-                    statusMessage.textContent = successMessage;
+                    statusMessage.src = './images/mail.png';
+                    
+                    // statusMessage.textContent = successMessage;
                 })
                 .catch((err) => {
-                    statusMessage.textContent = errorMessage;
+                    // statusMessage.textContent = errorMessage;
+                    statusMessage.src = './images/error.png';
                     console.error(err);
                 })
                 .then(() => clearFormFields(form));
