@@ -103,7 +103,11 @@ listColSelect.addEventListener('click', (event) => {
     }
 });
 input.addEventListener('click', () => {
-    listDefault.style.cssText = `display: block !important;`;
+    if (listAutocomplete.style.display === 'block') {
+        listDefault.style.cssText = `display: none !important;`;
+    } else {
+        listDefault.style.cssText = `display: block !important;`;
+    }
     if (listColDefault.querySelector('.dropdown-lists__countryBlock')){
         return;
     }
@@ -193,20 +197,20 @@ input.addEventListener('input', (e) => {
                 parent.removeChild(listColAutocomplete.querySelector('.dropdown-lists__countryBlock'));
             }
             
-            let key = e.data;
-            if (key === null) {
+            let searchString = input.value.toLowerCase();
+            if (searchString === '') {
                 listDefault.style.cssText = `display: block !important;`;
                 listAutocomplete.style.cssText = `display: none !important;`;
                 return;
             }
-            key = key.toUpperCase();
+            // key = key.toUpperCase();
             // let lang;
-            if (/[A-Z]/.test(key)) {
-                lang = 'en';
+            if (/[a-z]/.test(searchString)) {
+                lang = 'EN';
             } else {
-                lang = 'ru';
+                lang = 'RU';
             }
-            lang = lang.toUpperCase();
+            // lang = lang.toUpperCase();
             const listCountryCities = data[lang];
             const len = listCountryCities.length;
 
@@ -219,7 +223,7 @@ input.addEventListener('input', (e) => {
                     const citiesLen = cities.length;                    
 
                     for (let i = 0; i < citiesLen; i++) {
-                        if (cities[i]['name'].slice(0,1) === key) {
+                        if ((cities[i]['name'].toLowerCase()).indexOf(searchString) !== -1) {
                             const line = document.createElement('div');
                             line.className = 'dropdown-lists__line';
                             divCountryBlock.appendChild(line);
@@ -282,11 +286,11 @@ dropdownLists.addEventListener('click', (e) => {
         })
         .then((data) => {
             if (/[A-Z]/.test(input.value.toUpperCase().slice(0,1))) {
-                lang = 'en';
+                lang = 'EN';
             } else {
-                lang = 'ru';
+                lang = 'RU';
             }
-            lang = lang.toUpperCase();
+            // lang = lang.toUpperCase();
             const listCountryCities = data[lang];
             const len = listCountryCities.length;
             for (let i = 0; i < len; i++) {                
