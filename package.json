@@ -31,7 +31,7 @@
     "@babel/polyfill": "^7.6.0",
     "asn1.js": "^4.10.1",
     "buffer": "^4.9.1",
-    "decode-uri-component": "^0.2.0",
+    "decode-uri-component": "^0.2.1",
     "define-property": "^2.0.2",
     "des.js": "^1.0.0",
     "domain-browser": "^1.2.0",
